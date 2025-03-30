@@ -67,40 +67,44 @@ function DashboardLayout({ children }) {
       </Toolbar>
       <Divider />
       <List sx={{ bgcolor: BRAND_BLUE, height: '100%' }}>
-        {menuItems.map((item, index) => {
-          // Verifica si la ruta actual coincide con la del item
-          const isActive = location.pathname === item.route;
-          return (
-            <ListItem disablePadding key={index}>
-              <ListItemButton
-                component={Link}
-                to={item.route}
-                sx={{
-                  // Si está activo => fondo blanco, texto azul
-                  // Si no => fondo transparente, texto blanco
-                  backgroundColor: isActive ? '#fff' : 'transparent',
-                  color: isActive ? BRAND_BLUE : '#fff',
-                  margin: '4px 8px',
-                  borderRadius: 2,
-                  '&:hover': {
-                    backgroundColor: isActive ? '#fff' : 'rgba(255,255,255,0.2)',
-                    color: '#fff'
-                  }
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    color: isActive ? BRAND_BLUE : '#fff',
-                    minWidth: '40px'
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+      {menuItems.map((item, index) => {
+  const isActive = location.pathname === item.route;
+  return (
+    <ListItem disablePadding key={index}>
+      <ListItemButton
+        component={Link}
+        to={item.route}
+        sx={{
+          backgroundColor: isActive ? '#fff' : 'transparent',
+          color: isActive ? BRAND_BLUE : '#fff',
+          margin: '4px 8px',
+          borderRadius: 2,
+          '&:hover': {
+            backgroundColor: isActive ? '#fff' : 'rgba(255,255,255,0.2)',
+            color: '#fff'
+          }
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            color: isActive ? BRAND_BLUE : '#fff',
+            minWidth: '40px'
+          }}
+        >
+          {item.icon}
+        </ListItemIcon>
+        <ListItemText
+          primary={item.text}
+          sx={{
+            color: isActive ? BRAND_BLUE : '#fff',
+            fontWeight: isActive ? 'bold' : 'normal'
+          }}
+        />
+      </ListItemButton>
+    </ListItem>
+  );
+})}
+
       </List>
     </div>
   );
