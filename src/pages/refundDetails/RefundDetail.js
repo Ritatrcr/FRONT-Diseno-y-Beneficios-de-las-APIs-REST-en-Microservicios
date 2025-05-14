@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Typography, Box, Alert, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+const axios = require('axios');
+import { AuthContext } from '../../context/AuthContext';
 
 const RefundDetail = () => {
   const { id } = useParams();

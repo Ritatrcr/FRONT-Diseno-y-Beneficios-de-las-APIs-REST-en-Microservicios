@@ -1,18 +1,15 @@
-// src/pages/Register.js
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import { Box, Grid, Typography, TextField, Button, Alert, Link } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+const axios = require('axios');
 
-const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail]       = useState('');
+import { Box, Grid, Typography, TextField, Button, Alert, Link } from '@mui/material';
+import { AuthContext } from '../../context/AuthContext';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
-  const [success, setSuccess]   = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,30 +17,29 @@ const Register = () => {
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:3000/register', {
-        username,
-        email,
-        password,
-      });
-
-      setSuccess('Usuario registrado exitosamente');
+      // Petición al backend
+      const res = await axios.post('http://localhost:3000/login', { email, password });
+      // Guardar token y usuario en contexto
+      login(res.data.token, res.data.user || { email });
+      setSuccess('Sesión iniciada exitosamente');
       setTimeout(() => {
-        navigate('/login');
+        // Usamos window.location.href para redirigir
+        window.location.href = '/';
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al registrar el usuario');
+      setError(err.response?.data?.message || 'Error al iniciar sesión');
     }
   };
 
   return (
     <Grid container sx={{ minHeight: '100vh' }}>
-      {/* Columna Izquierda */}
+      {/* Columna Izquierda: Imagen de Fondo */}
       <Grid
         item
         xs={12}
         md={6}
         sx={{
-          backgroundImage: 'url("/images/myBackground.png")',
+          backgroundImage: 'url("/images/myBackground.png")', // Ajusta ruta
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -61,15 +57,15 @@ const Register = () => {
             BancaPro
           </Typography>
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 1 }}>
-            Bienvenido.
+            Welcome back.
           </Typography>
           <Typography variant="h6" sx={{ maxWidth: 400 }}>
-            ¡Comienza tu viaje ahora con nuestro sistema de gestión!
+            Log in to continue with our management system!
           </Typography>
         </Box>
       </Grid>
 
-      {/* Columna Derecha */}
+      {/* Columna Derecha: Formulario */}
       <Grid
         item
         xs={12}
@@ -85,7 +81,7 @@ const Register = () => {
       >
         <Box sx={{ width: '100%', maxWidth: 400 }}>
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Crear una cuenta
+            ¡Bienvenido de vuelta!
           </Typography>
 
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -93,7 +89,7 @@ const Register = () => {
 
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
-              label="Correo electrónico"
+              label="Correo Electronico"
               type="email"
               fullWidth
               margin="normal"
@@ -110,14 +106,6 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <TextField
-              label="Nombre de usuario"
-              fullWidth
-              margin="normal"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
 
             <Button
               variant="contained"
@@ -128,18 +116,18 @@ const Register = () => {
                 mb: 2,
                 backgroundColor: '#0033a0',
                 '&:hover': {
-                  backgroundColor: '#00237a'
-                }
+                  backgroundColor: '#00237a',
+                },
               }}
             >
-              CREAR CUENTA
+              Inicia Sesión
             </Button>
           </Box>
 
           <Typography variant="body2" align="center">
-            ¿Ya tienes una cuenta?{' '}
-            <Link href="/login" underline="hover" sx={{ color: '#0033a0' }}>
-              Inicia sesión
+            ¿No tienes una cuenta aún?{' '}
+            <Link href="/register" underline="hover">
+              Regístrate
             </Link>
           </Typography>
         </Box>
@@ -148,4 +136,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

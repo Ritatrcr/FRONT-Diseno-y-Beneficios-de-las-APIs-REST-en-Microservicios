@@ -1,11 +1,12 @@
-// src/pages/Login.js
+// src/pages/Register.js
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+const axios = require('axios');
 import { Box, Grid, Typography, TextField, Button, Alert, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
-const Login = () => {
+const Register = () => {
+  const [username, setUsername] = useState('');
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
@@ -19,28 +20,30 @@ const Login = () => {
     setSuccess('');
 
     try {
-      // Petición al backend
-      const res = await axios.post('http://localhost:3000/login', { email, password });
-      // Guardar token y usuario en contexto
-      login(res.data.token, res.data.user || { email });
-      setSuccess('Sesión iniciada exitosamente');
+      const res = await axios.post('http://localhost:3000/register', {
+        username,
+        email,
+        password,
+      });
+
+      setSuccess('Usuario registrado exitosamente');
       setTimeout(() => {
-        navigate('/');
+        navigate('/login');
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al iniciar sesión');
+      setError(err.response?.data?.message || 'Error al registrar el usuario');
     }
   };
 
   return (
     <Grid container sx={{ minHeight: '100vh' }}>
-      {/* Columna Izquierda: Imagen de Fondo */}
+      {/* Columna Izquierda */}
       <Grid
         item
         xs={12}
         md={6}
         sx={{
-          backgroundImage: 'url("/images/myBackground.png")', // Ajusta ruta
+          backgroundImage: 'url("/images/myBackground.png")',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -58,15 +61,15 @@ const Login = () => {
             BancaPro
           </Typography>
           <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 1 }}>
-            Welcome back.
+            Bienvenido.
           </Typography>
           <Typography variant="h6" sx={{ maxWidth: 400 }}>
-            Log in to continue with our management system!
+            ¡Comienza tu viaje ahora con nuestro sistema de gestión!
           </Typography>
         </Box>
       </Grid>
 
-      {/* Columna Derecha: Formulario */}
+      {/* Columna Derecha */}
       <Grid
         item
         xs={12}
@@ -82,7 +85,7 @@ const Login = () => {
       >
         <Box sx={{ width: '100%', maxWidth: 400 }}>
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            ¡Bienvenido de vuelta!
+            Crear una cuenta
           </Typography>
 
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
@@ -90,7 +93,7 @@ const Login = () => {
 
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
-              label="Correo Electronico"
+              label="Correo electrónico"
               type="email"
               fullWidth
               margin="normal"
@@ -107,28 +110,36 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <TextField
+              label="Nombre de usuario"
+              fullWidth
+              margin="normal"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
 
             <Button
               variant="contained"
               type="submit"
               fullWidth
-              sx={{ mt: 2, mb: 2 ,backgroundColor: '#0033a0',
+              sx={{
+                mt: 2,
+                mb: 2,
+                backgroundColor: '#0033a0',
                 '&:hover': {
                   backgroundColor: '#00237a'
-                }}}
-              
+                }
+              }}
             >
-            Inicia Sesión
-
+              CREAR CUENTA
             </Button>
-
-            
           </Box>
 
           <Typography variant="body2" align="center">
-           ¿No tienes una cuenta aun?{' '}
-            <Link href="/register" underline="hover">
-              Registrate
+            ¿Ya tienes una cuenta?{' '}
+            <Link href="/login" underline="hover" sx={{ color: '#0033a0' }}>
+              Inicia sesión
             </Link>
           </Typography>
         </Box>
@@ -137,4 +148,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

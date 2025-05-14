@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Typography, Box, Alert, Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+const axios = require('axios');
+import { AuthContext } from '../../context/AuthContext';
 
 const PaymentDetail = () => {
   const { id } = useParams();

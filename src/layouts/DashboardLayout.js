@@ -1,7 +1,6 @@
 // src/layouts/DashboardLayout.js
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Box,
