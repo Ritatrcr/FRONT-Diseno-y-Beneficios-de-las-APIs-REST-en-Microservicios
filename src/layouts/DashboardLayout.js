@@ -28,7 +28,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const drawerWidth = 240;
 
-// Ajusta estos colores según tu marca o la paleta de la imagen
 const BRAND_BLUE = '#0033a0'; // Azul corporativo para fondo de la barra lateral
 const HIGHLIGHT_BLUE = '#3366FF'; // Azul alterno, si deseas usarlo
 
